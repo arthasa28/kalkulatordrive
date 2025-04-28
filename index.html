@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kalkulator Penyimanan Drive</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="logo-drive.png" type="image/png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      animation: fadeIn 1s ease;
+      position: relative;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    p {
+      margin-bottom: 10px;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2193b0;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
+    }
+    button:hover {
+      background-color: #1b7d99;
+      transform: scale(1.02);
+    }
+    .result-card {
+      margin-top: 20px;
+      background: #f1f8ff;
+      border: 2px solid #cce5ff;
+      border-radius: 12px;
+      padding: 20px;
+      animation: fadeInResult 0.8s ease;
+      text-align: left;
+    }
+    .result-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .result-item i {
+      font-size: 24px;
+      margin-right: 15px;
+      color: #2193b0;
+    }
+    .result-item span {
+      font-size: 18px;
+      color: #333;
+      line-height: 1.4;
+    }
+    .logo-footer {
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #777;
+      gap: 8px;
+    }
+    .logo-footer img {
+      width: 120px;
+      height: 20px;
+    }
+    .instructions {
+      background: #e0f7fa;
+      border: 1px solid #b2ebf2;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      color: #00796b;
+      font-size: 14px;
+      text-align: left;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInResult {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      .result-card {
+        padding: 15px;
+      }
+      .result-item i {
+        font-size: 22px;
+        margin-right: 12px;
+      }
+      .result-item span {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Kalkulator Penyimanan Drive</h1>
+
+  <!-- Instruksi untuk pengguna -->
+  <div class="instructions">
+    <strong>Cara Menggunakan:</strong>
+    <ul style="margin-left: 18px; margin-top: 8px;">
+      <li>Masukkan persentase penyimpanan yang sudah terpakai.</li>
+      <li>Contoh: Jika sudah menggunakan 32%, ketik "32".</li>
+      <li>Tekan tombol "Hitung" atau tekan "Enter" di keyboard.</li>
+    </ul>
+  </div>
+
+  <p><strong>Total Penyimpanan: 15 GB</strong></p>
+  <input type="number" id="percentInput" placeholder="Masukkan persentase (%)">
+  <button onclick="calculate()">Hitung</button>
+
+  <div id="result"></div>
+
+  <!-- Logo Footer -->
+  <div class="logo-footer">
+    <img src="logo.png" alt="Logo">
+    <span>Dibuat oleh 
+      <strong>
+        <a href="https://arthasa.my.id" target="_blank" style="text-decoration: none; color: inherit;">arthasa</a>
+      </strong>
+    </span>
+  </div>
+</div>
+
+<script>
+function calculate() {
+  const fixedGB = 15;
+  const percent = parseFloat(document.getElementById('percentInput').value);
+
+  if (isNaN(percent)) {
+    document.getElementById('result').innerHTML = "<p style='color:red;'>Mohon masukkan persentase yang benar.</p>";
+    return;
+  }
+
+  const usedGB = (percent / 100) * fixedGB;
+  const freeGB = fixedGB - usedGB;
+
+  document.getElementById('result').innerHTML = `
+    <div class="result-card">
+      <div class="result-item">
+        <i>📂</i> 
+        <span><strong>Penyimpanan yang dipakai:</strong> ${usedGB.toFixed(2)} GB</span>
+      </div>
+      <div class="result-item">
+        <i>🗂️</i> 
+        <span><strong>Penyimpanan yang kosong:</strong> ${freeGB.toFixed(2)} GB</span>
+      </div>
+    </div>
+  `;
+}
+
+// Support tombol Enter
+document.getElementById("percentInput").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    calculate();
+  }
+});
+</script>
+
+</body>
+</html>
